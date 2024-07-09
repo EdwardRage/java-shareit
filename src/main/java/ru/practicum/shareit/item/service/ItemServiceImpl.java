@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ItemServiceImpl implements ItemService{
+public class ItemServiceImpl implements ItemService {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
 
@@ -38,7 +38,7 @@ public class ItemServiceImpl implements ItemService{
             if (item.getName() != null) {
                 oldItem.setName(item.getName());
             }
-            if (item.getDescription() != null ) {
+            if (item.getDescription() != null) {
                 oldItem.setDescription(item.getDescription());
             }
             if (item.getAvailable() != null) {

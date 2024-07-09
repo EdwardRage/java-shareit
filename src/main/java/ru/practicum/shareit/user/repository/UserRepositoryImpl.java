@@ -10,6 +10,7 @@ import java.util.*;
 public class UserRepositoryImpl implements UserRepository {
     private final Map<Long, User> userMap = new HashMap<>();
     private long id = 0;
+
     @Override
     public User create(User user) {
         user.setId(generatedId());
