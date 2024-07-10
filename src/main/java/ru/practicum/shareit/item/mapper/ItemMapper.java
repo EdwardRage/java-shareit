@@ -13,8 +13,4 @@ public class ItemMapper {
         itemDto.setAvailable(item.getAvailable());
         return itemDto;
     }
-
-    /*public Item mapToItem(Item item) {
-        Item item
-    }*/
 }
