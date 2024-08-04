@@ -7,7 +7,8 @@ import ru.practicum.shareit.user.model.User;
 
 @Entity
 @Table(name = "item")
-@Getter @Setter
+@Getter
+@Setter
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
