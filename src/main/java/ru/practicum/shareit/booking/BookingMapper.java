@@ -16,7 +16,7 @@ public class BookingMapper {
         booking.setEndRent(bookingRequest.getEnd());
         booking.setItem(item);
         booking.setBooker(user);
-        booking.setStatus(BookingState.WAITING);
+        booking.setStatus(BookingStatus.WAITING);
         return booking;
     }
 

@@ -11,13 +11,13 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByBooker_IdOrderByStartDesc(long bookerId);
 
-    List<Booking> findByBooker_IdAndStatusAndEndRentAfterOrderByStartDesc(long bookerId, BookingState bookingState, LocalDateTime time);
+    List<Booking> findByBooker_IdAndStatusAndEndRentAfterOrderByStartDesc(long bookerId, BookingStatus bookingStatus, LocalDateTime time);
 
-    List<Booking> findByBooker_IdAndStatusAndEndRentBeforeOrderByStartDesc(long bookerId, BookingState bookingState, LocalDateTime time);
+    List<Booking> findByBooker_IdAndStatusAndEndRentBeforeOrderByStartDesc(long bookerId, BookingStatus bookingStatus, LocalDateTime time);
 
     List<Booking> findByBooker_IdAndStartAfterOrderByStartDesc(long bookerId, LocalDateTime time);
 
-    List<Booking> findByBooker_IdAndStatusOrderByStart(long bookerId, BookingState bookingState);
+    List<Booking> findByBooker_IdAndStatusOrderByStart(long bookerId, BookingStatus bookingStatus);
 
     @Query("select bk from Booking as bk " +
             "join bk.item as it " +
@@ -31,14 +31,14 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "join it.user as u " +
             "where u.id = :ownerId and bk.status = :status and bk.endRent >= :time " +
             "order by bk.start desc")
-    List<Booking> findByOwnerIdCurrent(long ownerId, BookingState status, LocalDateTime time);
+    List<Booking> findByOwnerIdCurrent(long ownerId, BookingStatus status, LocalDateTime time);
 
     @Query("select bk from Booking as bk " +
             "join bk.item as it " +
             "join it.user as u " +
             "where u.id = :ownerId and bk.status = :status and bk.endRent <= :time " +
             "order by bk.start desc")
-    List<Booking> findByOwnerIdPast(long ownerId, BookingState status, LocalDateTime time);
+    List<Booking> findByOwnerIdPast(long ownerId, BookingStatus status, LocalDateTime time);
 
     @Query("select bk from Booking as bk " +
             "join bk.item as it " +
@@ -51,7 +51,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             "join bk.item as it " +
             "join it.user as u " +
             "where u.id = :ownerId and bk.status = :status")
-    List<Booking> findByOwnerIdByStatus(long ownerId, BookingState status);
+    List<Booking> findByOwnerIdByStatus(long ownerId, BookingStatus status);
 
     @Query("select bk from Booking as bk " +
             "join bk.item as it " +

@@ -53,12 +53,12 @@ public class BookingServiceImpl implements BookingService {
                 .orElseThrow(() -> new ConditionsNotMetException("Пользователь с id = " + ownerId + " не найден"));
 
         if (booking.getItem().getUser().getId() == owner.getId()) {
-            if (booking.getStatus().equals(BookingState.WAITING)) {
+            if (booking.getStatus().equals(BookingStatus.WAITING)) {
                 if (approve) {
-                    booking.setStatus(BookingState.APPROVED);
+                    booking.setStatus(BookingStatus.APPROVED);
                     bookingRepository.save(booking);
                 } else {
-                    booking.setStatus(BookingState.REJECTED);
+                    booking.setStatus(BookingStatus.REJECTED);
                     bookingRepository.save(booking);
                 }
                 BookingDtoResponse bookingDto = bookingMapper.mapToBookingDto(booking);
@@ -90,39 +90,40 @@ public class BookingServiceImpl implements BookingService {
         User booker = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
         long bookerId = booker.getId();
-        switch (state) {
-            case "ALL":
+        BookingState bookingState = BookingState.valueOf(state);
+        switch (bookingState) {
+            case ALL:
                 List<BookingDtoResponse> bookingAll = bookingRepository.findByBooker_IdOrderByStartDesc(bookerId).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingAll;
-            case "CURRENT":
+            case CURRENT:
                 List<BookingDtoResponse> bookingCurrent = bookingRepository.findByBooker_IdAndStatusAndEndRentAfterOrderByStartDesc(
-                        bookerId, BookingState.APPROVED, LocalDateTime.now()).stream()
+                        bookerId, BookingStatus.APPROVED, LocalDateTime.now()).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingCurrent;
-            case "PAST":
+            case PAST:
                 List<BookingDtoResponse> bookingPast = bookingRepository.findByBooker_IdAndStatusAndEndRentBeforeOrderByStartDesc(
-                                bookerId, BookingState.APPROVED, LocalDateTime.now()).stream()
+                                bookerId, BookingStatus.APPROVED, LocalDateTime.now()).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingPast;
-            case "FUTURE":
+            case FUTURE:
                 List<BookingDtoResponse> bookingFuture = bookingRepository.findByBooker_IdAndStartAfterOrderByStartDesc(
                                 bookerId, LocalDateTime.now()).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingFuture;
-            case "WAITING":
+            case WAITING:
                 List<BookingDtoResponse> bookingWaiting = bookingRepository.findByBooker_IdAndStatusOrderByStart(
-                        bookerId, BookingState.WAITING).stream()
+                        bookerId, BookingStatus.WAITING).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingWaiting;
-            case "REJECTED":
+            case REJECTED:
                 List<BookingDtoResponse> bookingRegected = bookingRepository.findByBooker_IdAndStatusOrderByStart(
-                                bookerId, BookingState.REJECTED).stream()
+                                bookerId, BookingStatus.REJECTED).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingRegected;
@@ -135,40 +136,41 @@ public class BookingServiceImpl implements BookingService {
         User booker = userRepository.findById(userId)
                 .orElseThrow(() -> new NotFoundException("Пользователь с id = " + userId + " не найден"));
         long ownerId = booker.getId();
-        switch (state) {
-            case "ALL":
+        BookingState bookingState = BookingState.valueOf(state);
+        switch (bookingState) {
+            case ALL:
                 List<BookingDtoResponse> bookingAll = bookingRepository.findAllByOwnerId(
                                 ownerId).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingAll;
-            case "CURRENT":
+            case CURRENT:
                 List<BookingDtoResponse> bookingCurrent = bookingRepository.findByOwnerIdCurrent(
-                        ownerId, BookingState.APPROVED, LocalDateTime.now()).stream()
+                        ownerId, BookingStatus.APPROVED, LocalDateTime.now()).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingCurrent;
-            case "PAST":
+            case PAST:
                 List<BookingDtoResponse> bookingPast = bookingRepository.findByOwnerIdPast(
-                                ownerId, BookingState.APPROVED, LocalDateTime.now()).stream()
+                                ownerId, BookingStatus.APPROVED, LocalDateTime.now()).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingPast;
-            case "FUTURE":
+            case FUTURE:
                 List<BookingDtoResponse> bookingFuture = bookingRepository.findByOwnerIdFuture(
                                 ownerId, LocalDateTime.now()).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingFuture;
-            case "WAITING":
+            case WAITING:
                 List<BookingDtoResponse> bookingWaiting = bookingRepository.findByOwnerIdByStatus(
-                                ownerId, BookingState.WAITING).stream()
+                                ownerId, BookingStatus.WAITING).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingWaiting;
-            case "REJECTED":
+            case REJECTED:
                 List<BookingDtoResponse> bookingRegected = bookingRepository.findByOwnerIdByStatus(
-                                ownerId, BookingState.REJECTED).stream()
+                                ownerId, BookingStatus.REJECTED).stream()
                         .map(bookingMapper::mapToBookingDto)
                         .collect(Collectors.toList());
                 return bookingRegected;

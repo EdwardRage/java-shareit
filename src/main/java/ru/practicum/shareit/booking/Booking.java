@@ -34,5 +34,5 @@ public class Booking {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private BookingState status;
+    private BookingStatus status;
 }
