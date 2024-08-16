@@ -20,6 +20,7 @@ public class RequestController {
     @PostMapping
     public ResponseEntity<Object> create(@RequestBody RequestIncomingDto request,
                                          @NotNull @RequestHeader("X-Sharer-User-Id") long userId) {
+        log.info("create request ==> " + request);
         return requestClient.create(request, userId);
     }
 
