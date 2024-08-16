@@ -62,6 +62,7 @@ public class ItemMapper {
         itemDto.setRequestId(item.getRequest().getId());
         return itemDto;
     }
+
     public ItemResponseDto mapToItemResponseWithoutRequestDto(Item item) {
         ItemResponseDto itemDto = new ItemResponseDto();
         itemDto.setId(item.getId());
@@ -70,6 +71,7 @@ public class ItemMapper {
         itemDto.setAvailable(item.getAvailable());
         return itemDto;
     }
+
     public Item mapToItem(ItemRequestDto itemDto, User user, Request request) {
         Item item = new Item();
         item.setName(itemDto.getName());
