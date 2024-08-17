@@ -46,16 +46,4 @@ public class UserServiceImpl implements UserService {
         User user = getUserById(id);
         userRepository.deleteById(user.getId());
     }
-
-    /*private void validateForCreate(User user) {
-        if (user.getEmail() == null || user.getEmail().isEmpty() || !user.getEmail().contains("@")) {
-            throw new ConditionsNotMetException("Электронная почта не может быть пустой и не содержать символ @");
-        }
-    }
-
-    private void validateForUpdate(User user) {
-        if (!user.getEmail().contains("@")) {
-            throw new ConditionsNotMetException("Электронная почта не может не содержать символ @");
-        }
-    }*/
 }

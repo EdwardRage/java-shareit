@@ -31,12 +31,6 @@ public class RequestController {
         return requestDto;
     }
 
-    /*@GetMapping("/all")
-    public List<Request> get(@RequestParam int from,
-                             @RequestParam int size) {
-
-    }*/
-
     @GetMapping("/{requestId}")
     public RequestWithAnswerDto getById(@PathVariable long requestId,
                                         @RequestHeader("X-Sharer-User-Id") long userId) {
